@@ -11,9 +11,9 @@ class MyWidget(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
 
-        self.btn.clicked.connect(self.run)
+        self.launch.clicked.connect(self.click_launch)
 
-    def run(self):
+    def click_launch(self):
 
         con = sqlite3.connect("coffee.sqlite")
         cur = con.cursor()
