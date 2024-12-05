@@ -1,19 +1,20 @@
 import sqlite3
 import sys
 
-from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtWidgets import QMainWindow, QTableWidgetItem, QDialog, QLabel, QComboBox
+from UI.ui_file import Ui_Dialog
+from UI.ui_file1 import Ui_MainWindow
 
 
-class Add_Window(QDialog):
+class Add_Window(QDialog, Ui_Dialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
 
         self.pushButton.clicked.connect(self.click_btn)
 
-        self.con = sqlite3.connect("coffee.sqlite")
+        self.con = sqlite3.connect("data/coffee.sqlite")
         self.cur = self.con.cursor()
 
         result = [i[0] for i in self.cur.execute("""SELECT название FROM Сорта""").fetchall()]
@@ -52,16 +53,16 @@ class Add_Window(QDialog):
         final_label.show()
 
 
-class Change_Window(QDialog):
+class Change_Window(QDialog, Ui_Dialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
 
         label0 = QLabel(self)
         label0.setText("ID")
         label0.move(130, 20)
 
-        self.con = sqlite3.connect("coffee.sqlite")
+        self.con = sqlite3.connect("data/coffee.sqlite")
         self.cur = self.con.cursor()
 
         self.combo_box_id = QComboBox(self)
@@ -132,10 +133,10 @@ class Change_Window(QDialog):
         final_label.show()
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("main.ui", self)
+        self.setupUi(self)
 
         self.launch.clicked.connect(self.click_launch)
         self.add.clicked.connect(self.click_add)
@@ -143,7 +144,7 @@ class MyWidget(QMainWindow):
 
     def click_launch(self):
 
-        con = sqlite3.connect("coffee.sqlite")
+        con = sqlite3.connect("data/coffee.sqlite")
         cur = con.cursor()
         result = cur.execute("""SELECT
                                     кофе.ID,
